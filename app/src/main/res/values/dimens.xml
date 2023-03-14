@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="image_size">275dp</dimen>
+    <dimen name="image_horizontal_margin">50dp</dimen>
+    <dimen name="image_vertical_margin">20dp</dimen>
+    <dimen name="line_horizontal_margin">20dp</dimen>
+    <dimen name="line_vertical_margin">5dp</dimen>
+    <dimen name="status_image_margin">20dp</dimen>
+    <dimen name="created_at_margin">20dp</dimen>
+</resources>
