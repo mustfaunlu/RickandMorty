@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.unludev.rickandmorty.HomeFragment"
+        android:name="com.unludev.rickandmorty.ui.homepage.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.unludev.rickandmorty.DetailFragment"
+        android:name="com.unludev.rickandmorty.ui.detailpage.DetailFragment"
         android:label="fragment_detail"
         tools:layout="@layout/fragment_detail" />
 </navigation>
