@@ -1,67 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detailpage.DetailFragment"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".ui.detailpage.DetailFragment">
 
     <ImageView
         android:id="@+id/character_detail_page_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="275dp"
+        android:layout_height="275dp"
         android:layout_gravity="center"
-        tools:src="@tools:sample/avatars[0]" />
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginVertical="20dp"
+        tools:src="@tools:sample/avatars[0]"
+
+        />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
+        >
 
 
         <TextView
             android:id="@+id/character_detail_page_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status:"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Status:"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/character_detail_page_specy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Specy:"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Specy:"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/character_detail_page_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gender:"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Gender:"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/character_detail_page_origin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Origin:"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Origin:"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/character_detail_page_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location:"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Location:"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/character_detail_page_episodes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Episodes:"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Episodes:"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/character_detail_page_created"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created at (in API):"/>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="5dp"
+            android:text="Created at (in API):"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/status_image_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:questionApiStatus=""
+        />
 
 
-
-
-</LinearLayout>
+    </LinearLayout>
+    </layout>
