@@ -1,6 +1,9 @@
+import android.os.Parcelable
 import com.unludev.rickandmorty.data.model.character.Location
 import com.unludev.rickandmorty.data.model.character.Origin
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class RickAndMortyCharacter(
     val id: Int,
     val name: String,
@@ -14,4 +17,4 @@ data class RickAndMortyCharacter(
     val episode: List<String>,
     val url: String,
     val created: String,
-)
+) : Parcelable

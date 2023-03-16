@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="specy_label">Specy:</string>
+    <string name="gender_label">Gender:</string>
+    <string name="origin_label">Origin:</string>
+    <string name="location_label">Location:</string>
+    <string name="episodes_label">Episodes:</string>
+    <string name="status_label">Status:</string>
+    <string name="created_label">Created at \n(in API): </string>
 </resources>

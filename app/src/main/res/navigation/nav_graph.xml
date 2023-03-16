@@ -18,5 +18,9 @@
         android:id="@+id/detailFragment"
         android:name="com.unludev.rickandmorty.ui.detailpage.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <argument
+            android:name="character"
+            app:argType="RickAndMortyCharacter" />
+    </fragment>
 </navigation>

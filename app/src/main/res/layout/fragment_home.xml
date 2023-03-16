@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.unludev.rickandmorty.ui.homepage.HomeViewModel" />
+
     </data>
 
 

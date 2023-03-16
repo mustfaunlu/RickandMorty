@@ -1,0 +1,54 @@
+package com.unludev.rickandmorty.ui.homepage
+
+import android.graphics.Color
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.unludev.rickandmorty.data.model.location.Location
+import com.unludev.rickandmorty.databinding.LocationItemBinding
+
+class LocationListAdapter(
+    private var locations: List<Location>,
+    private val onItemClicked: (Location) -> Unit,
+) :
+    RecyclerView.Adapter<LocationListAdapter.ViewHolder>() {
+
+    private var selectedPosition = RecyclerView.NO_POSITION
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val viewBinding =
+            LocationItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(viewBinding)
+    }
+
+    override fun onBindViewHolder(holder: LocationListAdapter.ViewHolder, position: Int) {
+        val location = locations[position]
+        holder.bind(location)
+    }
+
+    override fun getItemCount(): Int {
+        return locations.size
+    }
+
+    inner class ViewHolder(private val binding: LocationItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(location: Location) {
+            binding.apply {
+                locationName.text = location.name
+
+                if (adapterPosition == selectedPosition) {
+                    locationName.setBackgroundColor(Color.LTGRAY)
+                } else {
+                    locationName.setBackgroundColor(Color.TRANSPARENT)
+                }
+
+                locationName.setOnClickListener {
+                    onItemClicked(location)
+                    selectedPosition = adapterPosition
+                    notifyDataSetChanged()
+                }
+            }
+        }
+    }
+}

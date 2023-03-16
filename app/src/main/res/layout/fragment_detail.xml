@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.unludev.rickandmorty.ui.detailpage.DetailViewModel" />
+
     </data>
 
     <LinearLayout
@@ -18,99 +19,180 @@
 
         <ImageView
             android:id="@+id/character_detail_page_image"
-            android:layout_width="275dp"
-            android:layout_height="275dp"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="@dimen/image_horizontal_margin"
+            android:layout_marginVertical="@dimen/image_vertical_margin"
             tools:src="@tools:sample/avatars[0]"
-
             />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/character_detail_page_status"
-                android:layout_width="wrap_content"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/status_label"
+                />
+            <TextView
+                android:text="Alive"
+                android:id="@+id/character_detail_page_status_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Status:"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/character_detail_page_specy"
-                android:layout_width="wrap_content"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/specy_label"
+                />
+            <TextView
+                android:text="Human"
+                android:id="@+id/character_detail_page_specy_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Specy:"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/character_detail_page_gender"
-                android:layout_width="wrap_content"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/gender_label"
+                />
+            <TextView
+                android:text="Female"
+                android:id="@+id/character_detail_page_gender_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Gender:"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/character_detail_page_origin"
-                android:layout_width="wrap_content"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/origin_label"
+                />
+            <TextView
+                android:text="Earth (C-137))"
+                android:id="@+id/character_detail_page_origin_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Origin:"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/character_detail_page_location"
-                android:layout_width="wrap_content"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/location_label"
+                />
+            <TextView
+                android:text="Earth (Replacement Dimension)"
+                android:id="@+id/character_detail_page_location_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Location:"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/character_detail_page_episodes"
-                android:layout_width="wrap_content"
+                android:id="@+id/character_detail_page_episode"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/episodes_label"
+                />
+            <TextView
+                android:text="S01E01"
+                android:id="@+id/character_detail_page_episode_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Episodes:"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/character_detail_page_created"
-                android:layout_width="wrap_content"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/created_label"
+                />
+            <TextView
+                android:text="05 Kas 2212, 09:00:00"
+                android:id="@+id/character_detail_page_created_txt"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
-                android:text="Created at (in API):"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/status_image_detail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:apiStatus="@{viewModel.status}" />
-
-
     </LinearLayout>
 </layout>
