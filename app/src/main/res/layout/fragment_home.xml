@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.unludev.rickandmorty.ui.homepage.HomeViewModel" />
+    </data>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,18 +17,23 @@
         android:orientation="vertical"
         tools:context=".ui.homepage.HomeFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/location_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            />
+
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/character_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
-
-
-        <ImageView
-            android:id="@+id/status_image_home"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:questionApiStatus="" />
-
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
     </LinearLayout>
 </layout>
