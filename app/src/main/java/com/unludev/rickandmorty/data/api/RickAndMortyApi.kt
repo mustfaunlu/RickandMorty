@@ -1,4 +1,4 @@
-package com.unludev.rickandmorty.data.remote
+package com.unludev.rickandmorty.data.api
 
 import RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.character.CharacterList
