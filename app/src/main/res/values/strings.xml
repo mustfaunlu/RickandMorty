@@ -8,4 +8,6 @@
     <string name="episodes_label">Episodes:</string>
     <string name="status_label">Status:</string>
     <string name="created_label">Created at \n(in API): </string>
+    <string name="splash_hello_text">Hello!</string>
+    <string name="splash_welcome_text">Welcome!</string>
 </resources>
