@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.RickAndMorty" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
@@ -18,13 +18,22 @@
     <style name="TitleStyle">
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/avenir_black</item>
+
+
+
+
     </style>
 
     <!-- Metin stilleri -->
     <style name="TextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">@font/avenir_book</item>
+
     </style>
 </resources>

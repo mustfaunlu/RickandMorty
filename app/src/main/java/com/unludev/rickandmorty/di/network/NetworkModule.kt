@@ -2,7 +2,7 @@ package com.unludev.rickandmorty.di.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.unludev.rickandmorty.data.remote.RickAndMortyApi
+import com.unludev.rickandmorty.data.api.RickAndMortyApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
