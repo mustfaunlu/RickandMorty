@@ -4,7 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.unludev.rickandmorty.R
-import com.unludev.rickandmorty.common.ApiStatus
+
+enum class ApiStatus { LOADING, ERROR, DONE }
 
 @BindingAdapter("apiStatus")
 fun bindStatus(statusImgView: ImageView, status: ApiStatus?) {
