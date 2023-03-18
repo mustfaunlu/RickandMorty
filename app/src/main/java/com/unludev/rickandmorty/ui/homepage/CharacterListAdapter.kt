@@ -1,10 +1,9 @@
 package com.unludev.rickandmorty.ui.homepage
 
-import RickAndMortyCharacter
+import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.unludev.rickandmorty.databinding.CharacterItemBinding
 import com.unludev.rickandmorty.utils.loadUrl
 

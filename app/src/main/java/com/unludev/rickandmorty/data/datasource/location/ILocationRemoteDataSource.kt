@@ -6,7 +6,7 @@ import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.data.model.location.LocationList
 import javax.inject.Inject
 
-class ILocationRemoteDataSource @Inject constructor(private val api: RickAndMortyApi) : LocationRemoteDataSource{
+class ILocationRemoteDataSource @Inject constructor(private val api: RickAndMortyApi) : LocationRemoteDataSource {
     override suspend fun getLocations(): NetworkResponse<LocationList> {
         return try {
             val response = api.getLocations()
@@ -24,5 +24,4 @@ class ILocationRemoteDataSource @Inject constructor(private val api: RickAndMort
             NetworkResponse.Error(e)
         }
     }
-
 }

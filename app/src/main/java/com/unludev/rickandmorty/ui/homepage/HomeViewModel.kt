@@ -1,12 +1,12 @@
 package com.unludev.rickandmorty.ui.homepage
 
-import RickAndMortyCharacter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.character.CharacterList
+import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.location.LocationList
 import com.unludev.rickandmorty.data.repository.character.CharacterRepository
 import com.unludev.rickandmorty.data.repository.location.LocationRepository

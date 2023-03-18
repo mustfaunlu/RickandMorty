@@ -4,56 +4,55 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.unludev.rickandmorty.R
+import androidx.navigation.fragment.navArgs
+import com.unludev.rickandmorty.databinding.FragmentDetailBinding
+import com.unludev.rickandmorty.utils.formatDate
+import com.unludev.rickandmorty.utils.loadUrl
 import dagger.hilt.android.AndroidEntryPoint
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-        }
-    }
+    private val args: DetailFragmentArgs by navArgs()
 
+    private lateinit var binding: FragmentDetailBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+    ): View {
+        binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = viewModel
+        }
+        (activity as? AppCompatActivity)?.supportActionBar?.title = args.character.name
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        detailData(args)
     }
+
+    private fun detailData(data: DetailFragmentArgs) {
+        binding.apply {
+            characterDetailPageImage.loadUrl(data.character.image)
+            characterDetailPageGenderTxt.text = data.character.gender
+            characterDetailPageSpecyTxt.text = data.character.species
+            characterDetailPageStatusTxt.text = data.character.status
+            characterDetailPageOriginTxt.text = data.character.origin.name
+            characterDetailPageLocationTxt.text = data.character.location.name
+            characterDetailPageCreatedTxt.text = formatDate(data.character.created)
+            characterDetailPageEpisodeTxt.text = data.character.episode.joinToString(",") { it.split("/").last() }
+        }
+    }
+
+    override fun onDestroyView() {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = "Rick and Morty"
+        super.onDestroyView()
+    }
+
 }

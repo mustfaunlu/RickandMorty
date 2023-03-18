@@ -1,6 +1,5 @@
+package com.unludev.rickandmorty.data.model.character
 import android.os.Parcelable
-import com.unludev.rickandmorty.data.model.character.Location
-import com.unludev.rickandmorty.data.model.character.Origin
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

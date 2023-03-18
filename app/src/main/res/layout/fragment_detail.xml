@@ -17,6 +17,7 @@
         android:orientation="vertical"
         tools:context=".ui.detailpage.DetailFragment">
 
+
         <ImageView
             android:id="@+id/character_detail_page_image"
             android:layout_width="@dimen/image_size"

@@ -1,6 +1,6 @@
 package com.unludev.rickandmorty.data.api
 
-import RickAndMortyCharacter
+import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.data.model.location.LocationList

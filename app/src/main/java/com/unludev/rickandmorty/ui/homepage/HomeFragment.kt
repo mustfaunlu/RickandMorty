@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.unludev.rickandmorty.data.NetworkResponse
+import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,10 +42,12 @@ class HomeFragment : Fragment() {
             when (response) {
                 is NetworkResponse.Success -> {
                     val characters = response.result
-                    characterAdapter = CharacterListAdapter(characters ?: emptyList()) { character ->
-                        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
-                        findNavController().navigate(action)
-                    }
+                    characterAdapter =
+                        CharacterListAdapter(characters ?: emptyList()) { character ->
+                            val action =
+                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
+                            findNavController().navigate(action)
+                        }
                     binding.characterRecyclerview.adapter = characterAdapter
                 }
                 else -> {}
@@ -55,10 +58,7 @@ class HomeFragment : Fragment() {
             when (response) {
                 is NetworkResponse.Success -> {
                     val locations = response.result
-                    val adapter = LocationListAdapter(locations!!.results) { location ->
-                        val characterIds = location.residents.map { it.split("/").last() }
-                        viewModel.getCharactersById(characterIds.joinToString(","))
-                    }
+                    val adapter = LocationAdapter(locations!!.results, ::clickLocation)
                     binding.apply {
                         locationRecyclerview.adapter = adapter
                     }
@@ -67,4 +67,10 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    private fun clickLocation(location: Location) {
+        val characterIds = location.residents.map { it.split("/").last() }
+        viewModel.getCharactersById(characterIds.joinToString(","))
+    }
 }
+

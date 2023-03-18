@@ -1,5 +1,6 @@
 package com.unludev.rickandmorty.ui.homepage
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.databinding.LocationItemBinding
 
-class LocationListAdapter(
+class LocationAdapter(
     private var locations: List<Location>,
     private val onItemClicked: (Location) -> Unit,
 ) :
-    RecyclerView.Adapter<LocationListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
 
     private var selectedPosition = RecyclerView.NO_POSITION
 
@@ -21,7 +22,7 @@ class LocationListAdapter(
         return ViewHolder(viewBinding)
     }
 
-    override fun onBindViewHolder(holder: LocationListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LocationAdapter.ViewHolder, position: Int) {
         val location = locations[position]
         holder.bind(location)
     }
@@ -33,6 +34,7 @@ class LocationListAdapter(
     inner class ViewHolder(private val binding: LocationItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("NotifyDataSetChanged")
         fun bind(location: Location) {
             binding.apply {
                 locationName.text = location.name

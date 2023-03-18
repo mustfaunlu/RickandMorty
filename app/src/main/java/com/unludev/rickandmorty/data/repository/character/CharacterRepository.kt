@@ -1,6 +1,6 @@
 package com.unludev.rickandmorty.data.repository.character
 
-import RickAndMortyCharacter
+import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.character.CharacterList
 import kotlinx.coroutines.flow.Flow

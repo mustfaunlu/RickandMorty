@@ -21,6 +21,6 @@
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="character"
-            app:argType="RickAndMortyCharacter" />
+            app:argType="com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter" />
     </fragment>
 </navigation>
