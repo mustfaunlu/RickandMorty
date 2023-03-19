@@ -24,13 +24,16 @@ class HomeViewModel @Inject constructor(
     val status: LiveData<ApiStatus> get() = _status
 
     private val _characters = MutableLiveData<NetworkResponse<List<RickAndMortyCharacter>>>()
-    val characters: LiveData<NetworkResponse<List<RickAndMortyCharacter>>> = _characters
+    val characters: LiveData<NetworkResponse<List<RickAndMortyCharacter>>> get() = _characters
 
     private val _characterList = MutableLiveData<NetworkResponse<CharacterList>>()
-    val characterList: LiveData<NetworkResponse<CharacterList>> = _characterList
+    val characterList: LiveData<NetworkResponse<CharacterList>> get() = _characterList
 
     private val _locationList = MutableLiveData<NetworkResponse<LocationList>>()
-    val locationList: LiveData<NetworkResponse<LocationList>> = _locationList
+    val locationList: LiveData<NetworkResponse<LocationList>> get() = _locationList
+
+    private val _character = MutableLiveData<NetworkResponse<RickAndMortyCharacter>>()
+    val character: LiveData<NetworkResponse<RickAndMortyCharacter>> get() = _character
 
     fun getCharactersById(ids: String) {
         viewModelScope.launch {
@@ -72,6 +75,19 @@ class HomeViewModel @Inject constructor(
                         _locationList.value = it
                     }
                     is NetworkResponse.Error -> _status.value = ApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+    fun getSingleCharacter(id: String) {
+        viewModelScope.launch {
+            characterRepository.getSingleCharacter(id).collect {
+                when (it) {
+                    is NetworkResponse.Success -> {
+                        _character.postValue(it)
+                    }
+                    else -> {}
                 }
             }
         }

@@ -6,10 +6,11 @@ import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import javax.inject.Inject
 
-class ICharacterRemoteDataSource @Inject constructor(private val api: RickAndMortyApi) : CharacterRemoteDataSource {
+class ICharacterRemoteDataSource @Inject constructor(private val api: RickAndMortyApi) :
+    CharacterRemoteDataSource {
     override suspend fun getCharacters(ids: String): NetworkResponse<List<RickAndMortyCharacter>> {
         return try {
-            val response = api.getCharacters(ids)
+            val response = api.getMultipleCharacters(ids)
             NetworkResponse.Success(response)
         } catch (e: Exception) {
             NetworkResponse.Error(e)
@@ -19,6 +20,15 @@ class ICharacterRemoteDataSource @Inject constructor(private val api: RickAndMor
     override suspend fun getAllCharacters(): NetworkResponse<CharacterList> {
         return try {
             val response = api.getAllCharacters()
+            NetworkResponse.Success(response)
+        } catch (e: Exception) {
+            NetworkResponse.Error(e)
+        }
+    }
+
+    override suspend fun getSingleCharacter(id: String): NetworkResponse<RickAndMortyCharacter> {
+        return try {
+            val response = api.getSingleCharacter(id)
             NetworkResponse.Success(response)
         } catch (e: Exception) {
             NetworkResponse.Error(e)

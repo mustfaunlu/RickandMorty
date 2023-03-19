@@ -15,11 +15,11 @@
         android:theme="@style/Theme.RickAndMorty"
         tools:targetApi="31">
         <activity
-            android:name=".HomeActivity"
+            android:name=".MainActivity"
             android:label="Rick and Morty"
             />
         <activity
-            android:name=".MainActivity"
+            android:name=".CustomSplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

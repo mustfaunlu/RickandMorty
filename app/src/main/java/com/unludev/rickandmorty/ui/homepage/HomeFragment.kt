@@ -41,14 +41,34 @@ class HomeFragment : Fragment() {
         viewModel.characters.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResponse.Success -> {
-                    val characters = response.result
+                    val characters = response.result?.toTypedArray()
                     characterAdapter =
-                        CharacterListAdapter(characters ?: emptyList()) { character ->
+                        CharacterListAdapter { character ->
                             val action =
                                 HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
                             findNavController().navigate(action)
                         }
                     binding.characterRecyclerview.adapter = characterAdapter
+                    characterAdapter.submitList(characters?.toList())
+
+
+                }
+                else -> {}
+            }
+        }
+
+        viewModel.character.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResponse.Success -> {
+                    val character = response.result
+                    characterAdapter =
+                        CharacterListAdapter {
+                            val action =
+                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
+                            findNavController().navigate(action)
+                        }
+                    binding.characterRecyclerview.adapter = characterAdapter
+                    characterAdapter.submitList(character?.let { listOf(it) })
                 }
                 else -> {}
             }
@@ -59,9 +79,7 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Success -> {
                     val locations = response.result
                     val adapter = LocationAdapter(locations!!.results, ::clickLocation)
-                    binding.apply {
-                        locationRecyclerview.adapter = adapter
-                    }
+                    binding.locationRecyclerview.adapter = adapter
                 }
                 else -> {}
             }
@@ -70,7 +88,10 @@ class HomeFragment : Fragment() {
 
     private fun clickLocation(location: Location) {
         val characterIds = location.residents.map { it.split("/").last() }
-        viewModel.getCharactersById(characterIds.joinToString(","))
+        if (characterIds.size == 1) {
+            viewModel.getSingleCharacter(characterIds.first())
+        } else {
+            viewModel.getCharactersById(characterIds.joinToString(","))
+        }
     }
 }
-
