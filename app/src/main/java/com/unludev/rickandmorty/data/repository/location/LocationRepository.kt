@@ -6,6 +6,6 @@ import com.unludev.rickandmorty.data.model.location.LocationList
 import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
-    suspend fun getLocations(): Flow<NetworkResponse<LocationList>>
+    suspend fun getLocations(page: Int = 1): Flow<NetworkResponse<LocationList>>
     suspend fun getLocation(id: Int): Flow<NetworkResponse<Location>>
 }

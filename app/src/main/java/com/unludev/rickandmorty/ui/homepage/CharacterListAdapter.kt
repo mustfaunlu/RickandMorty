@@ -19,8 +19,11 @@ private const val UNKNOWN_GENDERLESS_VIEW_TYPE = 3
 class CharacterListAdapter(
     private val onItemClicked: (RickAndMortyCharacter) -> Unit,
 ) :
-    ListAdapter<RickAndMortyCharacter, RecyclerView.ViewHolder>(AsyncDifferConfig.Builder(DiffCallback).build()) {
-
+    ListAdapter<RickAndMortyCharacter, RecyclerView.ViewHolder>(
+        AsyncDifferConfig.Builder(
+            DiffCallback,
+        ).build(),
+    ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
@@ -56,10 +59,6 @@ class CharacterListAdapter(
             "Female" -> FEMALE_VIEW_TYPE
             else -> UNKNOWN_GENDERLESS_VIEW_TYPE
         }
-    }
-
-    override fun getItemCount(): Int {
-        return currentList.size
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<RickAndMortyCharacter>() {

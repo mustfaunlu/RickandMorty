@@ -5,7 +5,7 @@ import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 
 interface CharacterRemoteDataSource {
-    suspend fun getCharacters(ids: String): NetworkResponse<List<RickAndMortyCharacter>>
+    suspend fun getCharactersByIds(ids: String): NetworkResponse<List<RickAndMortyCharacter>>
 
     suspend fun getAllCharacters(): NetworkResponse<CharacterList>
 

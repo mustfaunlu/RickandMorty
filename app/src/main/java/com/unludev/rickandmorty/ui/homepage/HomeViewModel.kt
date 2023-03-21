@@ -1,30 +1,25 @@
 package com.unludev.rickandmorty.ui.homepage
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.location.LocationList
 import com.unludev.rickandmorty.data.repository.character.CharacterRepository
 import com.unludev.rickandmorty.data.repository.location.LocationRepository
-import com.unludev.rickandmorty.utils.ApiStatus
+import com.unludev.rickandmorty.di.coroutine.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
     private val locationRepository: LocationRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
-    private val _status = MutableLiveData<ApiStatus>()
-    val status: LiveData<ApiStatus> get() = _status
-
-    private val _characters = MutableLiveData<NetworkResponse<List<RickAndMortyCharacter>>>()
-    val characters: LiveData<NetworkResponse<List<RickAndMortyCharacter>>> get() = _characters
+    private val _charactersByIds = MutableLiveData<NetworkResponse<List<RickAndMortyCharacter>>>()
+    val charactersByIds: LiveData<NetworkResponse<List<RickAndMortyCharacter>>> get() = _charactersByIds
 
     private val _characterList = MutableLiveData<NetworkResponse<CharacterList>>()
     val characterList: LiveData<NetworkResponse<CharacterList>> get() = _characterList
@@ -32,62 +27,79 @@ class HomeViewModel @Inject constructor(
     private val _locationList = MutableLiveData<NetworkResponse<LocationList>>()
     val locationList: LiveData<NetworkResponse<LocationList>> get() = _locationList
 
-    private val _character = MutableLiveData<NetworkResponse<RickAndMortyCharacter>>()
-    val character: LiveData<NetworkResponse<RickAndMortyCharacter>> get() = _character
+    private val _singleCharacter = MutableLiveData<NetworkResponse<RickAndMortyCharacter>>()
+    val singleCharacter: LiveData<NetworkResponse<RickAndMortyCharacter>> get() = _singleCharacter
+    init {
+        getLocations(0)
+    }
 
     fun getCharactersById(ids: String) {
-        viewModelScope.launch {
-            characterRepository.getCharacters(ids).collect {
+        viewModelScope.launch(ioDispatcher) {
+            characterRepository.getCharactersByIds(ids).collect {
                 when (it) {
-                    is NetworkResponse.Loading -> _status.value = ApiStatus.LOADING
-                    is NetworkResponse.Success -> {
-                        _status.value = ApiStatus.DONE
-                        _characters.value = it
+                    is NetworkResponse.Loading -> {
+                        _charactersByIds.postValue(NetworkResponse.Loading)
                     }
-                    is NetworkResponse.Error -> _status.value = ApiStatus.ERROR
-                }
-            }
-        }
-    }
-
-    fun getCharacters() {
-        viewModelScope.launch {
-            characterRepository.getAllCharacters().collect {
-                when (it) {
-                    is NetworkResponse.Loading -> _status.value = ApiStatus.LOADING
                     is NetworkResponse.Success -> {
-                        _status.value = ApiStatus.DONE
-                        _characterList.value = it
+                        _charactersByIds.postValue(NetworkResponse.Success(it.result))
                     }
-                    is NetworkResponse.Error -> _status.value = ApiStatus.ERROR
-                }
-            }
-        }
-    }
-
-    fun getLocations() {
-        viewModelScope.launch {
-            locationRepository.getLocations().collect {
-                when (it) {
-                    is NetworkResponse.Loading -> _status.value = ApiStatus.LOADING
-                    is NetworkResponse.Success -> {
-                        _status.value = ApiStatus.DONE
-                        _locationList.value = it
+                    is NetworkResponse.Error -> {
+                        _charactersByIds.postValue(NetworkResponse.Error(it.exception))
                     }
-                    is NetworkResponse.Error -> _status.value = ApiStatus.ERROR
                 }
             }
         }
     }
 
     fun getSingleCharacter(id: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             characterRepository.getSingleCharacter(id).collect {
                 when (it) {
-                    is NetworkResponse.Success -> {
-                        _character.postValue(it)
+                    is NetworkResponse.Loading -> {
+                        _singleCharacter.postValue(NetworkResponse.Loading)
                     }
-                    else -> {}
+                    is NetworkResponse.Success -> {
+                        _singleCharacter.postValue(NetworkResponse.Success(it.result))
+                    }
+                    is NetworkResponse.Error -> {
+                        _singleCharacter.postValue(NetworkResponse.Error(it.exception))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getAllCharacters() {
+        viewModelScope.launch(ioDispatcher) {
+            characterRepository.getAllCharacters().collect {
+                when (it) {
+                    is NetworkResponse.Loading -> {
+                        _characterList.postValue(NetworkResponse.Loading)
+                    }
+                    is NetworkResponse.Success -> {
+                        _characterList.postValue(NetworkResponse.Success(it.result))
+                    }
+                    is NetworkResponse.Error -> {
+                        _characterList.postValue(NetworkResponse.Error(it.exception))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getLocations(page: Int = 1) {
+        viewModelScope.launch(ioDispatcher) {
+            locationRepository.getLocations(page).collect {
+                when (it) {
+                    is NetworkResponse.Loading -> {
+                        _locationList.postValue(NetworkResponse.Loading)
+                    }
+                    is NetworkResponse.Success -> {
+                        _locationList.postValue(NetworkResponse.Success(it.result))
+                    }
+                    is NetworkResponse.Error -> {
+                        _locationList.postValue(NetworkResponse.Error(it.exception))
+                    }
                 }
             }
         }

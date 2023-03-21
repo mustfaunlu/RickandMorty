@@ -5,6 +5,6 @@ import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.data.model.location.LocationList
 
 interface LocationRemoteDataSource {
-    suspend fun getLocations(): NetworkResponse<LocationList>
+    suspend fun getLocations(page: Int = 1): NetworkResponse<LocationList>
     suspend fun getLocation(id: Int): NetworkResponse<Location>
 }

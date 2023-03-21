@@ -1,5 +1,6 @@
 package com.unludev.rickandmorty.ui.homepage
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,25 +8,35 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.unludev.rickandmorty.R
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.databinding.FragmentHomeBinding
+import com.unludev.rickandmorty.utils.* // ktlint-disable no-wildcard-imports
 import dagger.hilt.android.AndroidEntryPoint
+
+const val PAGE_SIZE = 7
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+    private var isLoading = false
+    private var currentPage = 0
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private lateinit var binding: FragmentHomeBinding
-
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var locationAdapter: LocationAdapter
     private lateinit var characterAdapter: CharacterListAdapter
+    var resultsList = mutableListOf<Location>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = viewModel
@@ -33,15 +44,51 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObserver()
+        addScrollListener()
 
-        viewModel.getLocations()
+        locationAdapter = LocationAdapter(resultsList, ::clickLocation)
+        binding.locationRecyclerview.adapter = locationAdapter
+    }
 
-        viewModel.characters.observe(viewLifecycleOwner) { response ->
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setObserver() {
+        viewModel.locationList.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResponse.Success -> {
-                    val characters = response.result?.toTypedArray()
+                    isLoading = false
+                    val locations = response.result
+                    if(resultsList.containsAll(locations?.results ?: emptyList())) {
+                        binding.progressBar.postDelayed({
+                            binding.progressBar.gone()
+                        }, 3000)
+                        return@observe
+                    }
+                    resultsList.addAll(locations?.results ?: emptyList())
+                    locationAdapter.notifyDataSetChanged()
+                    binding.progressBar.postDelayed({
+                        binding.progressBar.gone()
+                    }, 3000)
+                }
+                is NetworkResponse.Loading -> {
+                    isLoading = true
+                    binding.progressBar.visible()
+                }
+                is NetworkResponse.Error -> {
+                    isLoading = false
+                    binding.root.showSnack(getString(R.string.check_internet_connection_txt))
+                    binding.progressBar.visible()
+                }
+            }
+        }
+
+        viewModel.charactersByIds.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResponse.Success -> {
+                    val characters = response.result
                     characterAdapter =
                         CharacterListAdapter { character ->
                             val action =
@@ -49,15 +96,16 @@ class HomeFragment : Fragment() {
                             findNavController().navigate(action)
                         }
                     binding.characterRecyclerview.adapter = characterAdapter
-                    characterAdapter.submitList(characters?.toList())
-
-
+                    characterAdapter.submitList(characters)
+                }
+                is NetworkResponse.Error -> {
+                    binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
                 else -> {}
             }
         }
 
-        viewModel.character.observe(viewLifecycleOwner) { response ->
+        viewModel.singleCharacter.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResponse.Success -> {
                     val character = response.result
@@ -68,18 +116,11 @@ class HomeFragment : Fragment() {
                             findNavController().navigate(action)
                         }
                     binding.characterRecyclerview.adapter = characterAdapter
-                    characterAdapter.submitList(character?.let { listOf(it) })
+                    characterAdapter.submitList(listOf(character))
                 }
-                else -> {}
-            }
-        }
 
-        viewModel.locationList.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is NetworkResponse.Success -> {
-                    val locations = response.result
-                    val adapter = LocationAdapter(locations!!.results, ::clickLocation)
-                    binding.locationRecyclerview.adapter = adapter
+                is NetworkResponse.Error -> {
+                    binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
                 else -> {}
             }
@@ -88,10 +129,28 @@ class HomeFragment : Fragment() {
 
     private fun clickLocation(location: Location) {
         val characterIds = location.residents.map { it.split("/").last() }
-        if (characterIds.size == 1) {
-            viewModel.getSingleCharacter(characterIds.first())
-        } else {
-            viewModel.getCharactersById(characterIds.joinToString(","))
+        when (characterIds.size) {
+            0, 1 -> {
+                binding.characterRecyclerview.adapter =
+                    null // TODO() -> geri tusuna basinca uygulamadan cikiyor
+                binding.root.showSnack("No characters found")
+            }
+            else -> viewModel.getCharactersById(characterIds.joinToString(","))
         }
+    }
+
+    private fun addScrollListener() {
+        binding.locationRecyclerview.addOnScrollListener(
+            object :
+                PaginationScrollListener(binding.locationRecyclerview.layoutManager as LinearLayoutManager) {
+                override fun loadMoreItems() {
+                    viewModel.getLocations(++currentPage)
+                }
+
+                override fun isLastPage(): Boolean = currentPage == PAGE_SIZE
+
+                override fun isLoading(): Boolean = isLoading
+            },
+        )
     }
 }
