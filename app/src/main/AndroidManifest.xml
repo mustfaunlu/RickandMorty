@@ -17,10 +17,16 @@
         <activity
             android:name=".MainActivity"
             android:label="Rick and Morty"
+            android:screenOrientation="sensor"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+
             />
         <activity
             android:name=".CustomSplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="sensor"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

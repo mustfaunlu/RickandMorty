@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.unludev.rickandmorty.ui.detailpage.DetailViewModel" />
+
+    </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.detailpage.DetailFragment">
+
+
+        <ImageView
+            android:id="@+id/character_detail_page_image"
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/image_horizontal_margin"
+            android:layout_marginVertical="@dimen/image_vertical_margin"
+            tools:src="@tools:sample/avatars[0]"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_status"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/status_label"
+                />
+            <TextView
+                android:text="Alive"
+                android:id="@+id/character_detail_page_status_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_specy"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/specy_label"
+                />
+            <TextView
+                android:text="Human"
+                android:id="@+id/character_detail_page_specy_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_gender"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/gender_label"
+                />
+            <TextView
+                android:text="Female"
+                android:id="@+id/character_detail_page_gender_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_origin"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/origin_label"
+                />
+            <TextView
+                android:text="Earth (C-137))"
+                android:id="@+id/character_detail_page_origin_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_location"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/location_label"
+                />
+            <TextView
+                android:text="Earth (Replacement Dimension)"
+                android:id="@+id/character_detail_page_location_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_episode"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/episodes_label"
+                />
+            <TextView
+                android:text="S01E01"
+                android:id="@+id/character_detail_page_episode_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/character_detail_page_created"
+                style="@style/TitleStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"
+                android:text="@string/created_label"
+                />
+            <TextView
+                android:text="05 Kas 2212, 09:00:00"
+                android:id="@+id/character_detail_page_created_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextStyle"
+                android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+                android:layout_marginVertical="@dimen/line_vertical_margin"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+</layout>
