@@ -9,5 +9,5 @@ interface CharacterRepository {
     suspend fun getCharactersByIds(ids: String): Flow<NetworkResponse<List<RickAndMortyCharacter>>>
 
     suspend fun getAllCharacters(): Flow<NetworkResponse<CharacterList>>
-    suspend fun getSingleCharacter(id: String): Flow<NetworkResponse<RickAndMortyCharacter>>
+    suspend fun getSingleCharacter(id: Int): Flow<NetworkResponse<RickAndMortyCharacter>>
 }

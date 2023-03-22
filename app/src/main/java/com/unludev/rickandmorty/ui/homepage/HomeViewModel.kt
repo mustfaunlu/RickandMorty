@@ -9,7 +9,7 @@ import com.unludev.rickandmorty.data.repository.character.CharacterRepository
 import com.unludev.rickandmorty.data.repository.location.LocationRepository
 import com.unludev.rickandmorty.di.coroutine.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.* // ktlint-disable no-wildcard-imports
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getSingleCharacter(id: String) {
+    fun getSingleCharacter(id: Int) {
         viewModelScope.launch(ioDispatcher) {
             characterRepository.getSingleCharacter(id).collect {
                 when (it) {

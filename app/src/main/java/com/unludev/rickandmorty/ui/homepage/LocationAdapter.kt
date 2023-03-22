@@ -14,7 +14,7 @@ class LocationAdapter(
 ) :
     RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
 
-    private var selectedPosition = RecyclerView.NO_POSITION
+    companion object { var selectedPosition = RecyclerView.NO_POSITION}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewBinding =
@@ -22,6 +22,7 @@ class LocationAdapter(
         return ViewHolder(viewBinding)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: LocationAdapter.ViewHolder, position: Int) {
         val location = locations[position]
         holder.bind(location)

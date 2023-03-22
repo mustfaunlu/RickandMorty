@@ -9,5 +9,5 @@ interface CharacterRemoteDataSource {
 
     suspend fun getAllCharacters(): NetworkResponse<CharacterList>
 
-    suspend fun getSingleCharacter(id: String): NetworkResponse<RickAndMortyCharacter>
+    suspend fun getSingleCharacter(id: Int): NetworkResponse<RickAndMortyCharacter>
 }

@@ -33,7 +33,7 @@ class ICharacterRemoteDataSource @Inject constructor(
         }
     }
 
-    override suspend fun getSingleCharacter(id: String): NetworkResponse<RickAndMortyCharacter> {
+    override suspend fun getSingleCharacter(id: Int): NetworkResponse<RickAndMortyCharacter> {
         return try {
             val response = withContext(iODispatcher) { api.getSingleCharacter(id) }
             NetworkResponse.Success(response)

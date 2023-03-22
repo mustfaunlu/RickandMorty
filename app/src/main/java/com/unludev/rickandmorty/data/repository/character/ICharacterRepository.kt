@@ -49,7 +49,7 @@ class ICharacterRepository @Inject constructor(
         }.flowOn(ioDispatcher)
     }
 
-    override suspend fun getSingleCharacter(id: String): Flow<NetworkResponse<RickAndMortyCharacter>> {
+    override suspend fun getSingleCharacter(id: Int): Flow<NetworkResponse<RickAndMortyCharacter>> {
         return flow {
             emit(NetworkResponse.Loading)
             val response = try {

@@ -11,17 +11,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unludev.rickandmorty.R
 import com.unludev.rickandmorty.data.NetworkResponse
+import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.databinding.FragmentHomeBinding
 import com.unludev.rickandmorty.utils.* // ktlint-disable no-wildcard-imports
 import dagger.hilt.android.AndroidEntryPoint
 
-const val PAGE_SIZE = 7
-
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var isLoading = false
     private var currentPage = 0
+    private val maxPageSize = 7
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var characterAdapter: CharacterListAdapter
-    var resultsList = mutableListOf<Location>()
+    private var resultsList = mutableListOf<Location>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +43,10 @@ class HomeFragment : Fragment() {
         }
         return binding.root
     }
-
-    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObserver()
         addScrollListener()
-
         locationAdapter = LocationAdapter(resultsList, ::clickLocation)
         binding.locationRecyclerview.adapter = locationAdapter
     }
@@ -61,10 +58,8 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Success -> {
                     isLoading = false
                     val locations = response.result
-                    if(resultsList.containsAll(locations?.results ?: emptyList())) {
-                        binding.progressBar.postDelayed({
-                            binding.progressBar.gone()
-                        }, 3000)
+                    if (resultsList.containsAll(locations?.results ?: emptyList())) { // TODO: fix this later
+                        binding.progressBar.gone()
                         return@observe
                     }
                     resultsList.addAll(locations?.results ?: emptyList())
@@ -89,12 +84,7 @@ class HomeFragment : Fragment() {
             when (response) {
                 is NetworkResponse.Success -> {
                     val characters = response.result
-                    characterAdapter =
-                        CharacterListAdapter { character ->
-                            val action =
-                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
-                            findNavController().navigate(action)
-                        }
+                    characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
                     binding.characterRecyclerview.adapter = characterAdapter
                     characterAdapter.submitList(characters)
                 }
@@ -109,12 +99,7 @@ class HomeFragment : Fragment() {
             when (response) {
                 is NetworkResponse.Success -> {
                     val character = response.result
-                    characterAdapter =
-                        CharacterListAdapter {
-                            val action =
-                                HomeFragmentDirections.actionHomeFragmentToDetailFragment(it)
-                            findNavController().navigate(action)
-                        }
+                    characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
                     binding.characterRecyclerview.adapter = characterAdapter
                     characterAdapter.submitList(listOf(character))
                 }
@@ -126,7 +111,10 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
+    private fun navigateToDetailFragment(character: RickAndMortyCharacter) {
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
+        findNavController().navigate(action)
+    }
     private fun clickLocation(location: Location) {
         val characterIds = location.residents.map { it.split("/").last() }
         when (characterIds.size) {
@@ -147,7 +135,7 @@ class HomeFragment : Fragment() {
                     viewModel.getLocations(++currentPage)
                 }
 
-                override fun isLastPage(): Boolean = currentPage == PAGE_SIZE
+                override fun isLastPage(): Boolean = currentPage == maxPageSize
 
                 override fun isLoading(): Boolean = isLoading
             },

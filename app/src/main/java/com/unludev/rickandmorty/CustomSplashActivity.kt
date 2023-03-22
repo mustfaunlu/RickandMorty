@@ -3,10 +3,12 @@ package com.unludev.rickandmorty
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import com.unludev.rickandmorty.databinding.ActivitySplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,6 +35,16 @@ class CustomSplashActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }, 3000)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.root.background = AppCompatResources.getDrawable(this, R.drawable.splash)
+        } else {
+            binding.root.background = AppCompatResources.getDrawable(this, R.drawable.splash_land)
+        }
     }
 
     private fun setUpSplashText() {

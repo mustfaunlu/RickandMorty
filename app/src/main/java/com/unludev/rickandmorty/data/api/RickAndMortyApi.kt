@@ -20,7 +20,7 @@ interface RickAndMortyApi {
     suspend fun getCharactersByIds(@Path("ids") ids: String): List<RickAndMortyCharacter>
 
     @GET("character/{id}")
-    suspend fun getSingleCharacter(@Path("id") id: String): RickAndMortyCharacter
+    suspend fun getSingleCharacter(@Path("id") id: Int): RickAndMortyCharacter
 
     @GET("character")
     suspend fun getAllCharacters(): CharacterList

@@ -10,6 +10,10 @@
             type="com.unludev.rickandmorty.ui.detailpage.DetailViewModel" />
 
     </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -196,4 +200,5 @@
 
         </LinearLayout>
     </LinearLayout>
+</ScrollView>
 </layout>
