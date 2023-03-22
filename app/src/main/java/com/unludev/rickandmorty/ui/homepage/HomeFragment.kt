@@ -22,14 +22,12 @@ class HomeFragment : Fragment() {
     private var isLoading = false
     private var currentPage = 0
     private val maxPageSize = 7
-
     private val viewModel: HomeViewModel by viewModels()
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var characterAdapter: CharacterListAdapter
-    private var resultsList = mutableListOf<Location>()
+    private var locationsResultList = mutableListOf<Location>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +45,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setObserver()
         addScrollListener()
-        locationAdapter = LocationAdapter(resultsList, ::clickLocation)
+        locationAdapter = LocationAdapter(locationsResultList, ::clickLocation)
         binding.locationRecyclerview.adapter = locationAdapter
     }
 
@@ -58,11 +56,11 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Success -> {
                     isLoading = false
                     val locations = response.result
-                    if (resultsList.containsAll(locations?.results ?: emptyList())) { // TODO: fix this later
+                    if (locationsResultList.containsAll(locations?.results ?: emptyList())) { // TODO: fix this later
                         binding.progressBar.gone()
                         return@observe
                     }
-                    resultsList.addAll(locations?.results ?: emptyList())
+                    locationsResultList.addAll(locations?.results ?: emptyList())
                     locationAdapter.notifyDataSetChanged()
                     binding.progressBar.postDelayed({
                         binding.progressBar.gone()
@@ -77,21 +75,6 @@ class HomeFragment : Fragment() {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                     binding.progressBar.visible()
                 }
-            }
-        }
-
-        viewModel.charactersByIds.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is NetworkResponse.Success -> {
-                    val characters = response.result
-                    characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
-                    binding.characterRecyclerview.adapter = characterAdapter
-                    characterAdapter.submitList(characters)
-                }
-                is NetworkResponse.Error -> {
-                    binding.root.showSnack(getString(R.string.check_internet_connection_txt))
-                }
-                else -> {}
             }
         }
 
@@ -110,6 +93,21 @@ class HomeFragment : Fragment() {
                 else -> {}
             }
         }
+
+        viewModel.charactersByIds.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResponse.Success -> {
+                    val characters = response.result
+                    characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
+                    binding.characterRecyclerview.adapter = characterAdapter
+                    characterAdapter.submitList(characters)
+                }
+                is NetworkResponse.Error -> {
+                    binding.root.showSnack(getString(R.string.check_internet_connection_txt))
+                }
+                else -> {}
+            }
+        }
     }
     private fun navigateToDetailFragment(character: RickAndMortyCharacter) {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
@@ -118,11 +116,12 @@ class HomeFragment : Fragment() {
     private fun clickLocation(location: Location) {
         val characterIds = location.residents.map { it.split("/").last() }
         when (characterIds.size) {
-            0, 1 -> {
+            0 -> {
                 binding.characterRecyclerview.adapter =
                     null // TODO() -> geri tusuna basinca uygulamadan cikiyor
                 binding.root.showSnack("No characters found")
             }
+            1 -> viewModel.getSingleCharacter(characterIds[0].toInt())
             else -> viewModel.getCharactersById(characterIds.joinToString(","))
         }
     }

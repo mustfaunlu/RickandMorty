@@ -41,6 +41,4 @@ class ICharacterRemoteDataSource @Inject constructor(
             NetworkResponse.Error(e)
         }
     }
-
-
 }

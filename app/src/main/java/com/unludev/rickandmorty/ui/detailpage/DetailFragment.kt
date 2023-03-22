@@ -24,10 +24,6 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
-        }
         (activity as? AppCompatActivity)?.supportActionBar?.title = args.character.name
         return binding.root
     }
