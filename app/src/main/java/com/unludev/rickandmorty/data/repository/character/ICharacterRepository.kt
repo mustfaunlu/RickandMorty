@@ -2,7 +2,6 @@ package com.unludev.rickandmorty.data.repository.character
 
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.datasource.character.CharacterRemoteDataSource
-import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.di.coroutine.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,23 +23,6 @@ class ICharacterRepository @Inject constructor(
             } catch (e: Exception) {
                 NetworkResponse.Error(e)
             }
-            when (response) {
-                is NetworkResponse.Success -> emit(NetworkResponse.Success(response.result))
-                is NetworkResponse.Error -> emit(NetworkResponse.Error(response.exception))
-                NetworkResponse.Loading -> Unit
-            }
-        }.flowOn(ioDispatcher)
-    }
-
-    override suspend fun getAllCharacters(): Flow<NetworkResponse<CharacterList>> {
-        return flow {
-            emit(NetworkResponse.Loading)
-            val response = try {
-                characterDataSource.getAllCharacters()
-            } catch (e: Exception) {
-                NetworkResponse.Error(e)
-            }
-
             when (response) {
                 is NetworkResponse.Success -> emit(NetworkResponse.Success(response.result))
                 is NetworkResponse.Error -> emit(NetworkResponse.Error(response.exception))

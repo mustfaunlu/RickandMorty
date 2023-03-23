@@ -12,14 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.unludev.rickandmorty.R
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
-import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.databinding.FragmentHomeBinding
-import com.unludev.rickandmorty.utils.* // ktlint-disable no-wildcard-imports
+import com.unludev.rickandmorty.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private var isLoading = false
+
     private var currentPage = 0
     private val maxPageSize = 7
     private val viewModel: HomeViewModel by viewModels()
@@ -27,7 +26,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var locationAdapter: LocationAdapter
     private lateinit var characterAdapter: CharacterListAdapter
-    private var locationsResultList = mutableListOf<Location>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,33 +43,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setObserver()
         addScrollListener()
-        locationAdapter = LocationAdapter(locationsResultList, ::clickLocation)
+        locationAdapter = LocationAdapter(viewModel.locationsResultList, viewModel::clickLocation)
         binding.locationRecyclerview.adapter = locationAdapter
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setObserver() {
-        viewModel.locationList.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is NetworkResponse.Success -> {
-                    isLoading = false
-                    val locations = response.result
-                    if (locationsResultList.containsAll(locations?.results ?: emptyList())) { // TODO: fix this later
-                        binding.progressBar.gone()
-                        return@observe
-                    }
-                    locationsResultList.addAll(locations?.results ?: emptyList())
+        viewModel.progressBarVisibility.observe(viewLifecycleOwner) { progressBarVisibility ->
+            when (progressBarVisibility) {
+                0 -> {
+                    locationAdapter.notifyDataSetChanged()
+                    binding.progressBar.gone()
+                }
+                1 -> {
                     locationAdapter.notifyDataSetChanged()
                     binding.progressBar.postDelayed({
                         binding.progressBar.gone()
                     }, 3000)
                 }
-                is NetworkResponse.Loading -> {
-                    isLoading = true
+                2 -> {
                     binding.progressBar.visible()
                 }
-                is NetworkResponse.Error -> {
-                    isLoading = false
+                else -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                     binding.progressBar.visible()
                 }
@@ -113,18 +106,6 @@ class HomeFragment : Fragment() {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
         findNavController().navigate(action)
     }
-    private fun clickLocation(location: Location) {
-        val characterIds = location.residents.map { it.split("/").last() }
-        when (characterIds.size) {
-            0 -> {
-                binding.characterRecyclerview.adapter =
-                    null // TODO() -> geri tusuna basinca uygulamadan cikiyor
-                binding.root.showSnack("No characters found")
-            }
-            1 -> viewModel.getSingleCharacter(characterIds[0].toInt())
-            else -> viewModel.getCharactersById(characterIds.joinToString(","))
-        }
-    }
 
     private fun addScrollListener() {
         binding.locationRecyclerview.addOnScrollListener(
@@ -136,7 +117,7 @@ class HomeFragment : Fragment() {
 
                 override fun isLastPage(): Boolean = currentPage == maxPageSize
 
-                override fun isLoading(): Boolean = isLoading
+                override fun isLoading(): Boolean = viewModel.isLoading
             },
         )
     }

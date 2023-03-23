@@ -1,6 +1,5 @@
 package com.unludev.rickandmorty.data.api
 
-import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.data.model.location.LocationList
@@ -21,7 +20,4 @@ interface RickAndMortyApi {
 
     @GET("character/{id}")
     suspend fun getSingleCharacter(@Path("id") id: Int): RickAndMortyCharacter
-
-    @GET("character")
-    suspend fun getAllCharacters(): CharacterList
 }

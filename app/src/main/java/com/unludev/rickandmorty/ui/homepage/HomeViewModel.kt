@@ -2,9 +2,8 @@ package com.unludev.rickandmorty.ui.homepage
 
 import androidx.lifecycle.*
 import com.unludev.rickandmorty.data.NetworkResponse
-import com.unludev.rickandmorty.data.model.character.CharacterList
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
-import com.unludev.rickandmorty.data.model.location.LocationList
+import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.data.repository.character.CharacterRepository
 import com.unludev.rickandmorty.data.repository.location.LocationRepository
 import com.unludev.rickandmorty.di.coroutine.IoDispatcher
@@ -21,19 +20,20 @@ class HomeViewModel @Inject constructor(
     private val _charactersByIds = MutableLiveData<NetworkResponse<List<RickAndMortyCharacter>>>()
     val charactersByIds: LiveData<NetworkResponse<List<RickAndMortyCharacter>>> get() = _charactersByIds
 
-    private val _characterList = MutableLiveData<NetworkResponse<CharacterList>>()
-    val characterList: LiveData<NetworkResponse<CharacterList>> get() = _characterList
-
-    private val _locationList = MutableLiveData<NetworkResponse<LocationList>>()
-    val locationList: LiveData<NetworkResponse<LocationList>> get() = _locationList
-
     private val _singleCharacter = MutableLiveData<NetworkResponse<RickAndMortyCharacter>>()
     val singleCharacter: LiveData<NetworkResponse<RickAndMortyCharacter>> get() = _singleCharacter
+
+    private val _progressBarVisibility = MutableLiveData<Int>()
+    val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
+
+    var isLoading = false
+    var locationsResultList = mutableListOf<Location>()
+
     init {
         getLocations(0)
     }
 
-    fun getCharactersById(ids: String) {
+    private fun getCharactersById(ids: String) {
         viewModelScope.launch(ioDispatcher) {
             characterRepository.getCharactersByIds(ids).collect {
                 when (it) {
@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getSingleCharacter(id: Int) {
+    private fun getSingleCharacter(id: Int) {
         viewModelScope.launch(ioDispatcher) {
             characterRepository.getSingleCharacter(id).collect {
                 when (it) {
@@ -69,39 +69,39 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAllCharacters() {
+    fun getLocations(page: Int = 1) {
         viewModelScope.launch(ioDispatcher) {
-            characterRepository.getAllCharacters().collect {
+            locationRepository.getLocations(page).collect {
                 when (it) {
                     is NetworkResponse.Loading -> {
-                        _characterList.postValue(NetworkResponse.Loading)
+                        isLoading = true
+                        _progressBarVisibility.postValue(2) // visible and loading
                     }
                     is NetworkResponse.Success -> {
-                        _characterList.postValue(NetworkResponse.Success(it.result))
+                        isLoading = false
+                        if (locationsResultList == it.result!!.results) {
+                            _progressBarVisibility.postValue(0) // gone and no more data
+                            return@collect
+                        } else {
+                            _progressBarVisibility.postValue(1) // 3000 ms delay visible and data
+                        }
+                        locationsResultList.addAll(it.result.results)
                     }
                     is NetworkResponse.Error -> {
-                        _characterList.postValue(NetworkResponse.Error(it.exception))
+                        isLoading = false
+                        _progressBarVisibility.postValue(-1) // visible and error
                     }
                 }
             }
         }
     }
 
-    fun getLocations(page: Int = 1) {
-        viewModelScope.launch(ioDispatcher) {
-            locationRepository.getLocations(page).collect {
-                when (it) {
-                    is NetworkResponse.Loading -> {
-                        _locationList.postValue(NetworkResponse.Loading)
-                    }
-                    is NetworkResponse.Success -> {
-                        _locationList.postValue(NetworkResponse.Success(it.result))
-                    }
-                    is NetworkResponse.Error -> {
-                        _locationList.postValue(NetworkResponse.Error(it.exception))
-                    }
-                }
-            }
+    fun clickLocation(location: Location) {
+        val characterIds = location.residents.map { it.split("/").last() }
+        if (characterIds.size > 1) {
+            getCharactersById(characterIds.joinToString(","))
+        } else {
+            getSingleCharacter(characterIds[0].toInt())
         }
     }
 }
