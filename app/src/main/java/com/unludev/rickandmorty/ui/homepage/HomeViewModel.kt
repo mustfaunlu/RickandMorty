@@ -41,28 +41,14 @@ class HomeViewModel @Inject constructor(
                         _charactersByIds.postValue(NetworkResponse.Loading)
                     }
                     is NetworkResponse.Success -> {
-                        _charactersByIds.postValue(NetworkResponse.Success(it.result))
+                        if (it.result?.size == 1) {
+                            _singleCharacter.postValue(NetworkResponse.Success(it.result[0]))
+                        } else {
+                            _charactersByIds.postValue(NetworkResponse.Success(it.result))
+                        }
                     }
                     is NetworkResponse.Error -> {
                         _charactersByIds.postValue(NetworkResponse.Error(it.exception))
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getSingleCharacter(id: Int) {
-        viewModelScope.launch(ioDispatcher) {
-            characterRepository.getSingleCharacter(id).collect {
-                when (it) {
-                    is NetworkResponse.Loading -> {
-                        _singleCharacter.postValue(NetworkResponse.Loading)
-                    }
-                    is NetworkResponse.Success -> {
-                        _singleCharacter.postValue(NetworkResponse.Success(it.result))
-                    }
-                    is NetworkResponse.Error -> {
-                        _singleCharacter.postValue(NetworkResponse.Error(it.exception))
                     }
                 }
             }
@@ -96,12 +82,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * If the location has only one resident, we will convert the character id firstly to list then to string and
+     * get the character because the api doesn't accept single parameter
+     * If the location has more than one resident, we will get the characters by ids
+     */
     fun clickLocation(location: Location) {
         val characterIds = location.residents.map { it.split("/").last() }
-        if (characterIds.size > 1) {
-            getCharactersById(characterIds.joinToString(","))
+        if (characterIds.size == 1) {
+            getCharactersById(characterIds.joinToString(",").toList().toString())
         } else {
-            getSingleCharacter(characterIds[0].toInt())
+            getCharactersById(characterIds.joinToString(","))
         }
     }
 }

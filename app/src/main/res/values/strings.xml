@@ -11,4 +11,5 @@
     <string name="splash_hello_text">Hello!</string>
     <string name="splash_welcome_text">Welcome!</string>
     <string name="check_internet_connection_txt">Please check your internet connection</string>
+    <string name="no_characters_found">No characters found</string>
 </resources>

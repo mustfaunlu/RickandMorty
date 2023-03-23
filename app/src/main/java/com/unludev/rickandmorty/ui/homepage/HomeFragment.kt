@@ -77,7 +77,7 @@ class HomeFragment : Fragment() {
                     val character = response.result
                     characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
                     binding.characterRecyclerview.adapter = characterAdapter
-                    characterAdapter.submitList(listOf(character))
+                    characterAdapter.submitList(mutableListOf(character))
                 }
 
                 is NetworkResponse.Error -> {
@@ -91,6 +91,11 @@ class HomeFragment : Fragment() {
             when (response) {
                 is NetworkResponse.Success -> {
                     val characters = response.result
+                    characters?.let {
+                        if (characters.isEmpty()) {
+                            binding.root.showSnack(getString(R.string.no_characters_found))
+                        }
+                    }
                     characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
                     binding.characterRecyclerview.adapter = characterAdapter
                     characterAdapter.submitList(characters)
@@ -98,7 +103,9 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Error -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
-                else -> {}
+                is NetworkResponse.Loading -> {
+                    binding.progressBar.visible()
+                }
             }
         }
     }

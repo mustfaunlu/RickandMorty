@@ -22,7 +22,6 @@ class LocationAdapter(
         return ViewHolder(viewBinding)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: LocationAdapter.ViewHolder, position: Int) {
         val location = locations[position]
         holder.bind(location)
