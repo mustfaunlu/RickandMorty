@@ -83,8 +83,8 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * If the location has only one resident, we will convert the character id firstly to list then to string and
-     * get the character because the api doesn't accept single parameter
+     * If the location has only one resident, we will convert the character id firstly to list
+     * then to string and get the character because the api doesn't accept single parameter
      * If the location has more than one resident, we will get the characters by ids
      */
     fun clickLocation(location: Location) {

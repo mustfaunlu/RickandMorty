@@ -34,13 +34,15 @@
                 android:id="@+id/gender_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/female" />
+                android:src="@drawable/female"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/character_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                tools:srcCompat="@tools:sample/avatars[1]" />
+                tools:srcCompat="@tools:sample/avatars[1]"
+                tools:ignore="ContentDescription" />
 
 
         </LinearLayout>

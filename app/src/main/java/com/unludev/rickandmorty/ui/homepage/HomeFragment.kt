@@ -103,9 +103,7 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Error -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
-                is NetworkResponse.Loading -> {
-                    binding.progressBar.visible()
-                }
+                is NetworkResponse.Loading -> {}
             }
         }
     }

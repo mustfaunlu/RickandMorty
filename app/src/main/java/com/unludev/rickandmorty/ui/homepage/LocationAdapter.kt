@@ -14,7 +14,7 @@ class LocationAdapter(
 ) :
     RecyclerView.Adapter<LocationAdapter.ViewHolder>() {
 
-    companion object { var selectedPosition = RecyclerView.NO_POSITION}
+    companion object { var selectedPosition = RecyclerView.NO_POSITION }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewBinding =

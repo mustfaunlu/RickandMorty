@@ -23,13 +23,15 @@
                 android:id="@+id/character_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                tools:srcCompat="@tools:sample/avatars[1]" />
+                tools:srcCompat="@tools:sample/avatars[1]"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/gender_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/male" />
+                android:src="@drawable/male"
+                tools:ignore="ContentDescription" />
 
 
             <TextView

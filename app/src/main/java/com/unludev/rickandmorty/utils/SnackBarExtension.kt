@@ -1,6 +1,5 @@
 package com.unludev.rickandmorty.utils
 
-import android.app.Dialog
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
