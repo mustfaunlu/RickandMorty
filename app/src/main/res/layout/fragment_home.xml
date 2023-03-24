@@ -39,8 +39,6 @@
                 android:layout_width="60dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:indeterminate="true"
-                android:indeterminateDuration="3000"
                 />
         </LinearLayout>
 

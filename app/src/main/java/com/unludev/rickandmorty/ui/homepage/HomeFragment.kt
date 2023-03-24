@@ -25,7 +25,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var locationAdapter: LocationAdapter
-    private lateinit var characterAdapter: CharacterListAdapter
+    private val characterAdapter by lazy {
+        CharacterListAdapter(::navigateToDetailFragment)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,21 +54,34 @@ class HomeFragment : Fragment() {
         viewModel.progressBarVisibility.observe(viewLifecycleOwner) { progressBarVisibility ->
             when (progressBarVisibility) {
                 0 -> {
-                    locationAdapter.notifyDataSetChanged()
-                    binding.progressBar.gone()
+                    if (viewModel.locationsResultList.isNotEmpty()) {
+                        locationAdapter.notifyDataSetChanged()
+                        binding.progressBar.gone()
+                    } else {
+                        binding.root.showSnack("No locations found")
+                        binding.progressBar.gone()
+                    }
                 }
                 1 -> {
-                    locationAdapter.notifyDataSetChanged()
-                    binding.progressBar.postDelayed({
+                    if (viewModel.locationsResultList.isNotEmpty()) {
+                        locationAdapter.notifyDataSetChanged()
+                        binding.progressBar.postDelayed({
+                            binding.progressBar.gone()
+                        }, 3000)
+                    } else {
+                        binding.root.showSnack("No locations found")
                         binding.progressBar.gone()
-                    }, 3000)
+                    }
                 }
                 2 -> {
                     binding.progressBar.visible()
                 }
-                else -> {
+                -1 -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                     binding.progressBar.visible()
+                }
+                else -> {
+                    binding.root.showSnack("No locations found")
                 }
             }
         }
@@ -75,9 +90,14 @@ class HomeFragment : Fragment() {
             when (response) {
                 is NetworkResponse.Success -> {
                     val character = response.result
-                    characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
-                    binding.characterRecyclerview.adapter = characterAdapter
                     characterAdapter.submitList(mutableListOf(character))
+                    if (characterAdapter.currentList.isEmpty()) {
+                        binding.root.showSnack(getString(R.string.no_characters_found))
+                        binding.progressBar.gone()
+                    } else {
+                        characterAdapter.submitList(mutableListOf(character))
+                        binding.progressBar.gone()
+                    }
                 }
 
                 is NetworkResponse.Error -> {
@@ -85,26 +105,27 @@ class HomeFragment : Fragment() {
                 }
                 else -> {}
             }
+            binding.characterRecyclerview.adapter = characterAdapter
         }
 
         viewModel.charactersByIds.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResponse.Success -> {
                     val characters = response.result
-                    characters?.let {
-                        if (characters.isEmpty()) {
-                            binding.root.showSnack(getString(R.string.no_characters_found))
-                        }
+                    if (characters!!.isEmpty()) {
+                        characterAdapter.submitList(emptyList())
+                        binding.root.showSnack(getString(R.string.no_characters_found))
+                    } else {
+                        characterAdapter.submitList(characters)
                     }
-                    characterAdapter = CharacterListAdapter(::navigateToDetailFragment)
-                    binding.characterRecyclerview.adapter = characterAdapter
-                    characterAdapter.submitList(characters)
+                    binding.progressBar.gone()
                 }
                 is NetworkResponse.Error -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
                 is NetworkResponse.Loading -> {}
             }
+            binding.characterRecyclerview.adapter = characterAdapter
         }
     }
     private fun navigateToDetailFragment(character: RickAndMortyCharacter) {

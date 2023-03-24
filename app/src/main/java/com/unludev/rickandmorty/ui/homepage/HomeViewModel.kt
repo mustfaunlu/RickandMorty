@@ -69,9 +69,9 @@ class HomeViewModel @Inject constructor(
                             _progressBarVisibility.postValue(0) // gone and no more data
                             return@collect
                         } else {
+                            locationsResultList.addAll(it.result.results)
                             _progressBarVisibility.postValue(1) // 3000 ms delay visible and data
                         }
-                        locationsResultList.addAll(it.result.results)
                     }
                     is NetworkResponse.Error -> {
                         isLoading = false
@@ -89,8 +89,11 @@ class HomeViewModel @Inject constructor(
      */
     fun clickLocation(location: Location) {
         val characterIds = location.residents.map { it.split("/").last() }
+
         if (characterIds.size == 1) {
             getCharactersById(characterIds.joinToString(",").toList().toString())
+        } else if (characterIds.isEmpty()) {
+            _charactersByIds.postValue(NetworkResponse.Success(emptyList()))
         } else {
             getCharactersById(characterIds.joinToString(","))
         }
