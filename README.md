@@ -1,22 +1,17 @@
 
-## Screeshots
-<p align="center">
-<img src="" width="15%"/>
-<img src="" width="15%"/>
-<img src="" width="15%"/>
-<img src="" width="15%"/>
-<img src="" width="15%"/>
-</p>
+## App videos Portrait/Landscape
+
+<img width="100" height="100" src="https://user-images.githubusercontent.com/38860392/227710831-31a11fa9-b548-4573-b55a-fc11a9d02a03.mp4" />
 
 ## Tech stack & Open-source libraries
 - 100% [Kotlin](https://kotlinlang.org/) based + [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) and [Flow](https://developer.android.com/kotlin/flow) & [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
-    - A single-activity architecture, using the [Jetpack Navigation](https://developer.android.com/guide/navigation) to manage transactions.
-    - [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle) - perform an action when lifecycle state changes
-    - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes.
-    - [Repository](https://developer.android.com/topic/architecture/data-layer) - Located in data layer that contains application data and business logic.
-    - ViewBinding & DataBinding - allows you to more easily write code that interacts with views.
-  
+  - A single-activity architecture, using the [Jetpack Navigation](https://developer.android.com/guide/navigation) to manage transactions.
+  - [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle) - perform an action when lifecycle state changes
+  - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes.
+  - [Repository](https://developer.android.com/topic/architecture/data-layer) - Located in data layer that contains application data and business logic.
+  - ViewBinding & DataBinding - allows you to more easily write code that interacts with views.
+
 
 
 - [Android Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - Dependency Injection Library
