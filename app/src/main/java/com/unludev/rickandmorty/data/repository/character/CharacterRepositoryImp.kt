@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class ICharacterRepository @Inject constructor(
+class CharacterRepositoryImp @Inject constructor(
     private val characterDataSource: CharacterRemoteDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CharacterRepository {

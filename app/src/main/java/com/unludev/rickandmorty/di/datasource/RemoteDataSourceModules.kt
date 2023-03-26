@@ -1,9 +1,9 @@
 package com.unludev.rickandmorty.di.datasource
 
 import com.unludev.rickandmorty.data.datasource.character.CharacterRemoteDataSource
-import com.unludev.rickandmorty.data.datasource.character.ICharacterRemoteDataSource
-import com.unludev.rickandmorty.data.datasource.location.ILocationRemoteDataSource
+import com.unludev.rickandmorty.data.datasource.character.CharacterRemoteDataSourceImp
 import com.unludev.rickandmorty.data.datasource.location.LocationRemoteDataSource
+import com.unludev.rickandmorty.data.datasource.location.LocationRemoteDataSourceImp
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,7 +16,7 @@ abstract class CharacterRepositoryModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindCharacterDataSource(characterRemoteDataSource: ICharacterRemoteDataSource): CharacterRemoteDataSource
+    abstract fun bindCharacterDataSource(characterRemoteDataSource: CharacterRemoteDataSourceImp): CharacterRemoteDataSource
 }
 
 @Module
@@ -25,5 +25,5 @@ abstract class LocationRepositoryModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindLocationDataSource(locationRemoteDataSource: ILocationRemoteDataSource): LocationRemoteDataSource
+    abstract fun bindLocationDataSource(locationRemoteDataSource: LocationRemoteDataSourceImp): LocationRemoteDataSource
 }

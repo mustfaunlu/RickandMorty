@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class ILocationRepository @Inject constructor(
+class LocationRepositoryImp @Inject constructor(
     private val locationRemoteDataSource: LocationRemoteDataSource,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : LocationRepository {
