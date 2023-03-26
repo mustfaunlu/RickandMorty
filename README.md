@@ -1,7 +1,7 @@
 
 ## App videos Portrait/Landscape
 
-<img width="100" height="100" src="https://user-images.githubusercontent.com/38860392/227710831-31a11fa9-b548-4573-b55a-fc11a9d02a03.mp4" />
+<img width="100" height="100" src="https://user-images.githubusercontent.com/38860392/227779990-9b87c7f6-42b5-465c-b105-a8fce79fcdb8.mp4" />
 
 ## Tech stack & Open-source libraries
 - 100% [Kotlin](https://kotlinlang.org/) based + [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) and [Flow](https://developer.android.com/kotlin/flow) & [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
