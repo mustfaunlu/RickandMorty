@@ -22,4 +22,13 @@
         <item name="android:layout_marginVertical">@dimen/line_vertical_margin</item>
 
     </style>
+
+    <style name="DetailLinearLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginVertical">@dimen/line_vertical_margin</item>
+        <item name="android:layout_marginHorizontal">@dimen/line_horizontal_margin</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
 </resources>
