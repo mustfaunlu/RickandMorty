@@ -41,9 +41,9 @@ class CustomSplashActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.root.background = AppCompatResources.getDrawable(this, R.drawable.splash)
-        } else {
             binding.root.background = AppCompatResources.getDrawable(this, R.drawable.splash_land)
+        } else {
+            binding.root.background = AppCompatResources.getDrawable(this, R.drawable.splash)
         }
     }
 
