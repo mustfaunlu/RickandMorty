@@ -10,8 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.unludev.rickandmorty.R
+import com.unludev.rickandmorty.common.Constants.GONE_AND_NO_MORE_DATA
+import com.unludev.rickandmorty.common.Constants.VISIBLE_AND_DELAYED
+import com.unludev.rickandmorty.common.Constants.VISIBLE_AND_ERROR
+import com.unludev.rickandmorty.common.Constants.VISIBLE_AND_LOADING
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
+import com.unludev.rickandmorty.data.model.location.Location
 import com.unludev.rickandmorty.databinding.FragmentHomeBinding
 import com.unludev.rickandmorty.utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,17 +40,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = viewModel
-        }
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObserver()
         addScrollListener()
-        locationAdapter = LocationAdapter(viewModel.locationsResultList, viewModel::clickLocation)
+        locationAdapter = LocationAdapter(viewModel.locationsResultList, ::clickLocation)
         binding.locationRecyclerview.adapter = locationAdapter
     }
 
@@ -53,35 +54,35 @@ class HomeFragment : Fragment() {
     private fun setObserver() {
         viewModel.progressBarVisibility.observe(viewLifecycleOwner) { progressBarVisibility ->
             when (progressBarVisibility) {
-                0 -> {
+                GONE_AND_NO_MORE_DATA -> {
                     if (viewModel.locationsResultList.isNotEmpty()) {
                         locationAdapter.notifyDataSetChanged()
                         binding.progressBar.gone()
                     } else {
-                        binding.root.showSnack("No locations found")
+                        binding.root.showSnack(getString(R.string.no_location_found))
                         binding.progressBar.gone()
                     }
                 }
-                1 -> {
+                VISIBLE_AND_DELAYED -> {
                     if (viewModel.locationsResultList.isNotEmpty()) {
                         locationAdapter.notifyDataSetChanged()
                         binding.progressBar.postDelayed({
                             binding.progressBar.gone()
                         }, 3000)
                     } else {
-                        binding.root.showSnack("No locations found")
+                        binding.root.showSnack(getString(R.string.no_location_found))
                         binding.progressBar.gone()
                     }
                 }
-                2 -> {
+                VISIBLE_AND_LOADING -> {
                     binding.progressBar.visible()
                 }
-                -1 -> {
+                VISIBLE_AND_ERROR -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                     binding.progressBar.visible()
                 }
                 else -> {
-                    binding.root.showSnack("No locations found")
+                    binding.root.showSnack(getString(R.string.no_location_found))
                 }
             }
         }
@@ -103,7 +104,7 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Error -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
-                else -> {}
+                NetworkResponse.Loading -> Unit
             }
             binding.characterRecyclerview.adapter = characterAdapter
         }
@@ -123,10 +124,14 @@ class HomeFragment : Fragment() {
                 is NetworkResponse.Error -> {
                     binding.root.showSnack(getString(R.string.check_internet_connection_txt))
                 }
-                is NetworkResponse.Loading -> {}
+                NetworkResponse.Loading -> Unit
             }
             binding.characterRecyclerview.adapter = characterAdapter
         }
+    }
+
+    private fun clickLocation(location: Location) {
+        viewModel.clickLocation(location)
     }
     private fun navigateToDetailFragment(character: RickAndMortyCharacter) {
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
@@ -138,7 +143,7 @@ class HomeFragment : Fragment() {
             object :
                 PaginationScrollListener(binding.locationRecyclerview.layoutManager as LinearLayoutManager) {
                 override fun loadMoreItems() {
-                    viewModel.getLocations(++currentPage)
+                    viewModel.getLocations(currentPage++)
                 }
 
                 override fun isLastPage(): Boolean = currentPage == maxPageSize

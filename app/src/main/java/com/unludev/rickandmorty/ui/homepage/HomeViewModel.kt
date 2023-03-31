@@ -1,6 +1,10 @@
 package com.unludev.rickandmorty.ui.homepage
 
 import androidx.lifecycle.*
+import com.unludev.rickandmorty.common.Constants.GONE_AND_NO_MORE_DATA
+import com.unludev.rickandmorty.common.Constants.VISIBLE_AND_DELAYED
+import com.unludev.rickandmorty.common.Constants.VISIBLE_AND_ERROR
+import com.unludev.rickandmorty.common.Constants.VISIBLE_AND_LOADING
 import com.unludev.rickandmorty.data.NetworkResponse
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.data.model.location.Location
@@ -30,7 +34,7 @@ class HomeViewModel @Inject constructor(
     var locationsResultList = mutableListOf<Location>()
 
     init {
-        getLocations(0)
+        getLocations()
     }
 
     private fun getCharactersById(ids: String) {
@@ -61,21 +65,21 @@ class HomeViewModel @Inject constructor(
                 when (it) {
                     is NetworkResponse.Loading -> {
                         isLoading = true
-                        _progressBarVisibility.postValue(2) // visible and loading
+                        _progressBarVisibility.postValue(VISIBLE_AND_LOADING) // visible and loading
                     }
                     is NetworkResponse.Success -> {
                         isLoading = false
                         if (locationsResultList == it.result!!.results) {
-                            _progressBarVisibility.postValue(0) // gone and no more data
+                            _progressBarVisibility.postValue(GONE_AND_NO_MORE_DATA) // gone and no more data
                             return@collect
                         } else {
                             locationsResultList.addAll(it.result.results)
-                            _progressBarVisibility.postValue(1) // 3000 ms delay visible and data
+                            _progressBarVisibility.postValue(VISIBLE_AND_DELAYED) // 3000 ms delay visible and data
                         }
                     }
                     is NetworkResponse.Error -> {
                         isLoading = false
-                        _progressBarVisibility.postValue(-1) // visible and error
+                        _progressBarVisibility.postValue(VISIBLE_AND_ERROR) // visible and error
                     }
                 }
             }

@@ -6,15 +6,14 @@ import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.unludev.rickandmorty.common.Constants.FEMALE_VIEW_TYPE
+import com.unludev.rickandmorty.common.Constants.MALE_VIEW_TYPE
+import com.unludev.rickandmorty.common.Constants.UNKNOWN_GENDERLESS_VIEW_TYPE
 import com.unludev.rickandmorty.data.model.character.RickAndMortyCharacter
 import com.unludev.rickandmorty.databinding.FemaleCharacterItemBinding
 import com.unludev.rickandmorty.databinding.MaleCharacterItemBinding
 import com.unludev.rickandmorty.databinding.UnknownGenderlessCharacterItemBinding
 import com.unludev.rickandmorty.utils.loadUrl
-
-private const val MALE_VIEW_TYPE = 1
-private const val FEMALE_VIEW_TYPE = 2
-private const val UNKNOWN_GENDERLESS_VIEW_TYPE = 3
 
 class CharacterListAdapter(
     private val onItemClicked: (RickAndMortyCharacter) -> Unit,
