@@ -1,5 +1,5 @@
 
-## App videos Portrait/Landscape
+## App videos Portrait/Landscape (PIXEL XL API 33)
 
 <img width="100" height="100" src="https://user-images.githubusercontent.com/38860392/227779990-9b87c7f6-42b5-465c-b105-a8fce79fcdb8.mp4" />
 
