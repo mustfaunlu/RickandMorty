@@ -11,12 +11,7 @@
 
     <TextView
         android:id="@+id/splash_text"
-        style="@style/TitleStyle"
-        android:layout_width="0dp"
-        android:layout_height="77dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="40sp"
+        style="@style/SplashScreenTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
