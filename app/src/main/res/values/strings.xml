@@ -13,4 +13,5 @@
     <string name="check_internet_connection_txt">Please check your internet connection</string>
     <string name="no_characters_found">No characters found</string>
     <string name="no_location_found">No locations found</string>
+    <string name="initial_snack_txt">Please select a location to see the characters</string>
 </resources>

@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObserver()
+        binding.root.showSnack(getString(R.string.initial_snack_txt))
         addScrollListener()
         locationAdapter = LocationAdapter(viewModel.locationsResultList, ::clickLocation)
         binding.locationRecyclerview.adapter = locationAdapter
