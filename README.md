@@ -21,7 +21,7 @@
 
 ## Architecture
 This app uses [***MVVM (Model View View-Model)***](https://developer.android.com/jetpack/docs/guide#recommended-app-arch) architecture
-![](https://user-images.githubusercontent.com/38860392/206267035-67a4a87b-2a08-4894-948b-e3a69d69ddd5.png)
+![](https://miro.medium.com/v2/resize:fit:1000/format:webp/1*itYWsxQTfq7xTuvIMrVhYg.png)
 
 ## API
 This app uses the [Rick and Morty API](https://rickandmortyapi.com/documentation/#introduction) to get the data.
