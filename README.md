@@ -1,3 +1,50 @@
+# Rick and Morty Location and Character App
+
+## Description
+
+This is an app that displays Rick and Morty locations and characters. Users can view a list of locations and characters, and click on a location to view the characters associated with that location. They can also click on a character to view more details about that character.
+
+## Tasks
+
+### Task 1: Basic Application Setup
+
+- [x] A functional basic application will be prepared.
+
+### Task 2: Splash Screen Development
+
+- [x] This page should only be displayed at startup.
+- [x] It should contain an animation or an image that introduces the application.
+- [x] There should be a welcome message on the page. When the user opens the application for the first time, it should say "Welcome!". In subsequent launches, it should say "Hello!".
+
+### Task 3: Home Page Creation
+
+- [x] The page should consist of a title/logo, a scrolling horizontal list, and a vertical list.
+
+### Task 4: Populating the Scrolling List
+
+- [x] The horizontal list should include Rick and Morty locations.
+- [x] The content should be pulled from here: https://rickandmortyapi.com/documentation/#locationschema
+- [x] Only the first page should be listed (20 locations).
+- [x] The design of selected and unselected locations should be different.
+
+### Task 5: Populating the Vertical List
+
+- [x] Characters associated with the location retrieved from the horizontal list should be listed.
+- [x] The location response contains urls for characters (residents). The id's from these urls will be parsed to retrieve character details from this source: https://rickandmortyapi.com/documentation/#get-multiple-characters
+
+### Task 6: Differentiating Items in the Vertical List
+
+- [x] Item designs should vary based on the gender of the listed characters: male, female, genderless, or unknown (as seen in the mockup).
+
+### Task 7: Adding Detail Pages
+
+- [x] The page with the provided design should be developed.
+- [x] Clicking on an item in the vertical list should open this page.
+
+### Task 8: Adding Lazy Load to the Scrolling List
+
+- [x] When the horizontal list on the main page is scrolled to the end (right), the next page should be loaded.
+- [x] A loading item should be added to the end of the list during loading.
 
 ## App videos Portrait/Landscape (PIXEL XL API 33)
 
