@@ -12,7 +12,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class CharacterRepositoryModule {
+abstract class CharacterDatasourceModule {
 
     @Binds
     @ViewModelScoped
@@ -21,7 +21,7 @@ abstract class CharacterRepositoryModule {
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class LocationRepositoryModule {
+abstract class LocationDatasourceModule {
 
     @Binds
     @ViewModelScoped
